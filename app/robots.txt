@@ -1,0 +1,17 @@
+import type { MetadataRoute } from "next";
+import { absoluteUrl } from "@/lib/seo";
+
+const disallowAdmin = ["/admin", "/api/admin"];
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: {
+      userAgent: "*",
+      allow: ["/"],
+      disallow: disallowAdmin,
+      crawlDelay: 5,
+    },
+    sitemap: absoluteUrl("/sitemap.xml"),
+    host: absoluteUrl(),
+  };
+}
