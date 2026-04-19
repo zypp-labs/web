@@ -124,6 +124,7 @@ export default function RootLayout({
         className={`${sans.variable} ${serif.variable} ${mono.variable} antialiased`}
       >
         {children}
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>
