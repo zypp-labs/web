@@ -58,6 +58,23 @@
   }
 }
 
+.animated-cards::before {
+         @apply pointer-events-none absolute select-none rounded-3xl opacity-0 transition-opacity duration-300 hover:opacity-100;
+         background: radial-gradient(
+           1000px circle at var(--x) var(--y),
+           #c9ee80 0,
+           #eebbe2 10%,
+           #adc0ec 25%,
+           #c9ee80 35%,
+           rgba(255, 255, 255, 0) 50%,
+           transparent 80%
+         );
+         z-index: -1;
+         content: "";
+         inset: -1px;
+       }
+
+
 :root {
   --radius: 0.625rem;
   --background: oklch(0.145 0 0);

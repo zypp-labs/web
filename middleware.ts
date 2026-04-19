@@ -12,6 +12,38 @@ export function middleware(request: NextRequest) {
   if (pathname.startsWith("/admin")) {
     // Allow login page and auth API
     if (pathname === "/admin/login" || pathname.startsWith("/api/admin/auth")) {
+      // Check if accessing pay subdomain
+      if (hostname.startsWith("pay.") || hostname === "pay.zypp.fun") {
+        // If already on /pay path, allow it
+        if (pathname === "/pay" || pathname.startsWith("/pay/")) {
+          return NextResponse.next();
+        }
+
+        // Rewrite root and other paths to /pay
+        const url = request.nextUrl.clone();
+        if (pathname === "/") {
+          url.pathname = "/pay";
+        } else {
+          url.pathname = `/pay${pathname}`;
+        }
+        return NextResponse.rewrite(url);
+      }
+
+      // Redirect /pay path on main domain to pay subdomain
+      if ((pathname === "/pay" || pathname.startsWith("/pay/")) && !hostname.startsWith("pay.")) {
+        const url = request.nextUrl.clone();
+        // Maintain development host (like localhost) or use zypp.fun
+        const host = request.headers.get("host") || "";
+        if (host.includes("localhost")) {
+          url.hostname = `pay.localhost`;
+        } else {
+          url.hostname = "pay.zypp.fun";
+        }
+        url.pathname = pathname.replace("/pay", "");
+        if (url.pathname === "") url.pathname = "/";
+        return NextResponse.redirect(url);
+      }
+
       return NextResponse.next();
     }
 
@@ -124,6 +156,38 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Check if accessing pay subdomain
+  if (hostname.startsWith("pay.") || hostname === "pay.zypp.fun") {
+    // If already on /pay path, allow it
+    if (pathname === "/pay" || pathname.startsWith("/pay/")) {
+      return NextResponse.next();
+    }
+
+    // Rewrite root and other paths to /pay
+    const url = request.nextUrl.clone();
+    if (pathname === "/") {
+      url.pathname = "/pay";
+    } else {
+      url.pathname = `/pay${pathname}`;
+    }
+    return NextResponse.rewrite(url);
+  }
+
+  // Redirect /pay path on main domain to pay subdomain
+  if ((pathname === "/pay" || pathname.startsWith("/pay/")) && !hostname.startsWith("pay.")) {
+    const url = request.nextUrl.clone();
+    // Maintain development host (like localhost) or use zypp.fun
+    const host = request.headers.get("host") || "";
+    if (host.includes("localhost")) {
+      url.hostname = `pay.localhost`;
+    } else {
+      url.hostname = "pay.zypp.fun";
+    }
+    url.pathname = pathname.replace("/pay", "");
+    if (url.pathname === "") url.pathname = "/";
+    return NextResponse.redirect(url);
+  }
+
   return NextResponse.next();
 }
 
@@ -135,7 +199,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - public files with extensions (.svg, .png, .jpg, .jpeg, .gif, .webp)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
