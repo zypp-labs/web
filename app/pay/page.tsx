@@ -99,7 +99,7 @@ const Page = () => {
                         width={57}
                         alt='Pay'
                         height={500}
-                        className='w-12 md:w-[57px]'
+                        className='w-12 md:w-[57px] h-auto'
                     />
                     <ExpandableScreenTrigger> <button className="bg-[#A1DC95] py-1.5 md:py-2 px-4 md:px-5 text-sm md:text-md font-semibold tracking-tight hover:bg-[#9fd596] hover:scale-103 active:scale-97 transition-all duration-200 rounded-full text-[#163617]">Join waitlist</button></ExpandableScreenTrigger>
                 </motion.div>
