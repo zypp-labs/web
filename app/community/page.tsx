@@ -72,7 +72,7 @@ export default function CommunityPage() {
                             </Link>
 
                             <Link
-                                href="https://t.me/usezypp"
+                                href="https://t.me/zypp_labs"
                                 className="group flex items-center justify-between p-6 border border-white/5 bg-zinc-900/30 hover:bg-[#04E83D]/5 hover:border-[#04E83D]/30 transition-all duration-100"
                             >
                                 <div className="flex items-center gap-4">
@@ -135,7 +135,7 @@ export default function CommunityPage() {
                             {[
                                 { title: "Test the Wallet", action: "Beta Access", href: "https://drive.google.com/file/d/1wbVGX90cwW7hxLvxnk28f7CS7muXLfRU/view?usp=sharing" },
                                 { title: "Build with SDK", action: "View Docs", href: "https://www.npmjs.com/package/toss-expo-sdk" },
-                                { title: "Give Feedback", action: "Submit Form", href: "https://t.me/usezypp" },
+                                { title: "Give Feedback", action: "Submit Form", href: "https://t.me/zypp_labs" },
                                 { title: "Contribute Ideas", action: "Open Discussion", href: "https://pine.roggy.site/f/product-idea-submission" }
                             ].map((item, i) => (
                                 <Link
