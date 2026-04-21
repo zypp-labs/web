@@ -10,7 +10,6 @@ import { HyperText } from '../ui/hyper-text';
 export const NavBar = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -19,37 +18,34 @@ export const NavBar = () => {
       <div className='w-full h-16 top-0 left-0 fixed z-50'>
         <div className='w-full h-full flex items-center justify-between px-4'>
           <div className='flex items-center justify-center'>
-            <Link href={baseUrl} className='flex items-center gap-2'>
+            <Link href="/" className='flex items-center gap-2'>
               <Image src="/logo.svg" alt='logo' width={100} height={100} className='w-16 h-16' /></Link>
             <h1 className='text-md font-medium opacity-70 mt-1'>{pathname === '/' ? '' : `/${pathname.split('/')[1]}`}</h1>
           </div>
 
           {/* Desktop Nav */}
           <div className='hidden md:flex items-center justify-center gap-8'>
-            <Link href={baseUrl} className='flex items-center gap-2'>
-              <HyperText duration={400} className='text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Home</HyperText>
+            <Link href="/" className='flex items-center gap-2'>
+              <HyperText duration={400} className='pointer-events-none text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Home</HyperText>
             </Link>
-            <Link href={`${baseUrl}/community`} className='flex items-center gap-2'>
-              <HyperText duration={400} className='text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Community</HyperText>
+            <Link href="/community" className='flex items-center gap-2'>
+              <HyperText duration={400} className='pointer-events-none text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Community</HyperText>
             </Link>
-            <Link href={`${baseUrl}/products`} className='flex items-center gap-2'>
-              <HyperText duration={400} className='text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Products</HyperText>
+            <Link href="/products" className='flex items-center gap-2'>
+              <HyperText duration={400} className='pointer-events-none text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Products</HyperText>
             </Link>
-            <Link href={`${baseUrl}/research`} className='flex items-center gap-2'>
-              <HyperText duration={400} className='text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Research</HyperText>
+            <Link href="/research" className='flex items-center gap-2'>
+              <HyperText duration={400} className='pointer-events-none text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Research</HyperText>
             </Link>
-            <Link href={`${baseUrl}/monitor`} className='flex items-center gap-2'>
-              <HyperText duration={400} className='text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Monitor</HyperText>
+            <Link href="/monitor" className='flex items-center gap-2'>
+              <HyperText duration={400} className='pointer-events-none text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Monitor</HyperText>
             </Link>
-            <Link href={`${baseUrl}/idea`} className='flex items-center gap-2'>
-              <HyperText duration={400} className='text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Idea</HyperText>
+            <Link href="/idea" className='flex items-center gap-2'>
+              <HyperText duration={400} className='pointer-events-none text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Idea</HyperText>
             </Link>
-            <Link href={`${baseUrl}/pay`} className='flex items-center gap-2'>
-              <HyperText duration={400} className='text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Pay</HyperText>
+            <Link href="/pay" className='flex items-center gap-2'>
+              <HyperText duration={400} className='pointer-events-none text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Pay</HyperText>
             </Link>
-            {/* <Link href="https://toss.zypp.fun" className='flex items-center gap-2'>
-              <HyperText duration={400} className='text-xs hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Files</HyperText>
-            </Link> */}
           </div>
 
           {/* Desktop Socials */}
@@ -91,26 +87,26 @@ export const NavBar = () => {
             <X className='w-6 h-6' />
           </button>
 
-          <Link href={baseUrl} onClick={toggleMenu} className='flex items-center gap-2'>
-            <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Home</HyperText>
+          <Link href="/" onClick={toggleMenu} className='flex items-center gap-2'>
+            <HyperText duration={400} className='pointer-events-none text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Home</HyperText>
           </Link>
           <Link href="/community" onClick={toggleMenu} className='flex items-center gap-2'>
-            <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Community</HyperText>
+            <HyperText duration={400} className='pointer-events-none text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Community</HyperText>
           </Link>
-          <Link href="products" onClick={toggleMenu} className='flex items-center gap-2'>
-            <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Products</HyperText>
+          <Link href="/products" onClick={toggleMenu} className='flex items-center gap-2'>
+            <HyperText duration={400} className='pointer-events-none text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Products</HyperText>
           </Link>
-          <Link href="research" onClick={toggleMenu} className='flex items-center gap-2'>
-            <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Research</HyperText>
+          <Link href="/research" onClick={toggleMenu} className='flex items-center gap-2'>
+            <HyperText duration={400} className='pointer-events-none text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Research</HyperText>
           </Link>
-          <Link href="monitor" onClick={toggleMenu} className='flex items-center gap-2'>
-            <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Monitor</HyperText>
+          <Link href="/monitor" onClick={toggleMenu} className='flex items-center gap-2'>
+            <HyperText duration={400} className='pointer-events-none text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Monitor</HyperText>
           </Link>
           <Link href="/idea" onClick={toggleMenu} className='flex items-center gap-2'>
-            <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Idea</HyperText>
+            <HyperText duration={400} className='pointer-events-none text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Idea</HyperText>
           </Link>
           <Link href="/pay" onClick={toggleMenu} className='flex items-center gap-2'>
-            <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Pay</HyperText>
+            <HyperText duration={400} className='pointer-events-none text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Pay</HyperText>
           </Link>
           {/* <Link href="https://toss.zypp.fun" onClick={toggleMenu} className='flex items-center gap-2'>
             <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Files</HyperText>
