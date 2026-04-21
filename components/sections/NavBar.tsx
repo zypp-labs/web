@@ -94,22 +94,22 @@ export const NavBar = () => {
           <Link href={baseUrl} onClick={toggleMenu} className='flex items-center gap-2'>
             <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Home</HyperText>
           </Link>
-          <Link href={`${baseUrl}/community`} onClick={toggleMenu} className='flex items-center gap-2'>
+          <Link href="/community" onClick={toggleMenu} className='flex items-center gap-2'>
             <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Community</HyperText>
           </Link>
-          <Link href={`${baseUrl}/products`} onClick={toggleMenu} className='flex items-center gap-2'>
+          <Link href="products" onClick={toggleMenu} className='flex items-center gap-2'>
             <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Products</HyperText>
           </Link>
-          <Link href={`${baseUrl}/research`} onClick={toggleMenu} className='flex items-center gap-2'>
+          <Link href="research" onClick={toggleMenu} className='flex items-center gap-2'>
             <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Research</HyperText>
           </Link>
-          <Link href={`${baseUrl}/monitor`} onClick={toggleMenu} className='flex items-center gap-2'>
+          <Link href="monitor" onClick={toggleMenu} className='flex items-center gap-2'>
             <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Monitor</HyperText>
           </Link>
-          <Link href={`${baseUrl}/idea`} onClick={toggleMenu} className='flex items-center gap-2'>
+          <Link href="/idea" onClick={toggleMenu} className='flex items-center gap-2'>
             <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Idea</HyperText>
           </Link>
-          <Link href={`${baseUrl}/pay`} onClick={toggleMenu} className='flex items-center gap-2'>
+          <Link href="/pay" onClick={toggleMenu} className='flex items-center gap-2'>
             <HyperText duration={400} className='text-sm hover:font-semibold text-white/80 hover:text-white transition-all duration-100'>Pay</HyperText>
           </Link>
           {/* <Link href="https://toss.zypp.fun" onClick={toggleMenu} className='flex items-center gap-2'>
