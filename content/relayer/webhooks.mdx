@@ -1,0 +1,14 @@
+---
+title: Webhooks
+description: Push-based job status notifications (coming soon).
+---
+
+<Callout type="warn" title="Coming soon">
+  Webhook delivery is on the ZRN roadmap. When available, you'll register a callback URL per API key and receive `POST` requests when jobs reach `confirmed` or `failed`.
+</Callout>
+
+## Current alternatives
+
+**SSE streaming** — `GET /v1/transactions/:jobId/stream` pushes updates every ~1.2s until the job reaches a terminal state. See [Stream job status](/relayer/docs/api/stream-job).
+
+**Polling** — `GET /v1/transactions/:jobId` on a schedule. Suitable for background jobs where latency isn't critical.

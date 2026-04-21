@@ -1,0 +1,64 @@
+---
+title: Architecture
+description: How ZRN's API server, queue, workers, and database fit together.
+---
+
+ZRN is composed of four loosely coupled layers, each independently scalable.
+
+```
+Client
+  │
+  ▼
+API Server (Fastify)       — validates, persists, enqueues
+  │
+  ▼
+Redis Queue (BullMQ)       — job states: waiting → active → done/failed
+  │
+  ▼
+Worker Node(s)             — broadcasts to Solana RPCs, polls confirmation
+  │
+  ├──▶ Solana RPC(s)
+  │
+  └──▶ PostgreSQL (Supabase)   — job status, audit log, metrics
+```
+
+## API server
+
+Built with **Fastify**. Responsible for:
+
+- Authenticating requests via `x-relayer-api-key`
+- Validating payloads (size, encoding, signatures)
+- Deduplicating by payload hash and intent sender+nonce
+- Inserting job records into PostgreSQL
+- Enqueuing broadcast jobs into Redis via BullMQ
+- Serving job status queries and SSE streams
+
+## Queue system
+
+**BullMQ** backed by Redis. Each submitted transaction or intent becomes a BullMQ job with the `jobId` as the job identifier, ensuring deduplication at the queue level. Failed jobs are retried with configurable backoff.
+
+## Worker nodes
+
+Separate processes that consume jobs from the queue. For each job the worker:
+
+1. Fetches the serialized payload from the database
+2. Broadcasts to the primary Solana RPC
+3. Falls back to secondary RPCs on failure
+4. Polls for transaction confirmation
+5. Updates job status to `confirmed` or `failed`
+
+Workers are horizontally scalable — run multiple instances with configurable concurrency.
+
+## Database
+
+**Supabase (PostgreSQL)**. The `jobs` table tracks job ID, status, payload hash, retry count, last error, transaction signature, intent metadata, and operational metrics.
+
+## Security model
+
+| Property | Detail |
+|---|---|
+| Non-custodial | Never constructs or signs transactions |
+| Stateless validation | Max 1232 bytes, valid Solana tx, all signatures present |
+| Replay protection | Duplicate payload hashes and sender+nonce pairs rejected |
+| Rate limiting | Redis-backed per-IP rate limiting |
+| Abuse scoring | Repeated invalid submissions trigger temporary IP blocks |

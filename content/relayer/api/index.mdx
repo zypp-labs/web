@@ -1,0 +1,41 @@
+---
+title: API Reference
+description: Full ZRN REST API documentation.
+---
+
+Base URL: `https://relayer.zypp.fun`
+
+All endpoints require `x-relayer-api-key` header. See [Authentication](/relayer/docs/authentication).
+
+## Endpoints
+
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/v1/intents` | Submit a signed intent bundle |
+| `POST` | `/v1/intents/batch` | Submit up to 20 intents |
+| `POST` | `/v1/transactions` | Submit a signed transaction |
+| `GET` | `/v1/transactions/:jobId` | Get job status |
+| `GET` | `/v1/transactions/:jobId/stream` | Stream job status via SSE |
+| `GET` | `/v1/ops/metrics` | Operational metrics |
+| `GET` | `/health` | Health check (no auth required) |
+
+## Error format
+
+```json
+{
+  "error": "Bad Request",
+  "code": "INVALID_TRANSACTION",
+  "message": "Human-readable description"
+}
+```
+
+| Code | Meaning |
+|---|---|
+| `INVALID_BODY` | Missing or malformed request body |
+| `INVALID_TRANSACTION` | Transaction failed validation |
+| `INVALID_INTENT` | Intent bundle failed validation |
+| `DUPLICATE_TRANSACTION` | Same transaction already queued |
+| `DUPLICATE_INTENT` | Same intent already queued |
+| `JOB_NOT_FOUND` | No job with the given ID |
+| `INVALID_API_KEY` | Missing or invalid API key |
+| `ABUSE_BLOCKED` | IP temporarily blocked |

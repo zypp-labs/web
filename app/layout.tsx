@@ -10,6 +10,7 @@ import "./globals.css";
 import fractal from "@/assets/fractal.svg";
 import coinHero from "@/assets/coin-hero.svg";
 import { buildMetadata, siteMetadata } from "@/lib/seo";
+import { RootProvider } from "fumadocs-ui/provider/next";
 
 const sans = Instrument_Sans({
   variable: "--font-sans",
@@ -123,7 +124,7 @@ export default function RootLayout({
       <body
         className={`${sans.variable} ${serif.variable} ${mono.variable} antialiased`}
       >
-        {children}
+        <RootProvider theme={{ enabled: false }}>{children}</RootProvider>
         <SpeedInsights />
         <Analytics />
       </body>

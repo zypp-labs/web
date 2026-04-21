@@ -1,0 +1,48 @@
+---
+title: Intents
+description: Intent-based gasless transactions on ZRN.
+---
+
+Intents describe *what* a user wants to do rather than the raw Solana transaction that implements it. ZRN verifies the intent signature, checks the nonce for replay protection, and broadcasts the associated transaction — enabling **gasless experiences** where the relayer sponsors the on-chain fee.
+
+## Intent bundle structure
+
+A base64-encoded JSON object:
+
+```json
+{
+  "intent": {
+    "type": "TRANSFER",
+    "sender": "SolanaPublicKey...",
+    "nonce": "unique-nonce-string",
+    "fee": 1000,
+    "total": 1001000
+  },
+  "signature": "base64-ed25519-signature-over-intent",
+  "transaction": "base64-signed-solana-transaction"
+}
+```
+
+The `signature` is an Ed25519 signature over the canonical JSON of the `intent` object, signed by the `sender` key.
+
+## Transfer intent fields
+
+| Field | Type | Description |
+|---|---|---|
+| `sender` | string | Payer's Solana public key (base58) |
+| `recipient` | string | Recipient's Solana public key (base58) |
+| `amount` | number | Transfer amount in USDC micro-units |
+| `fee` | number | Relayer fee in USDC micro-units |
+| `total` | number | `amount + fee` |
+| `nonce` | string | Unique per intent, used for replay protection |
+
+## Deduplication
+
+ZRN deduplicates at two levels:
+
+1. **Payload hash** — same base64 payload submitted twice → `409 Conflict` with existing `jobId`
+2. **Sender + nonce** — different payload, same `sender` + `nonce` → rejected as replay
+
+## Batch submission
+
+Submit up to 20 intents in one request via `POST /v1/intents/batch`. Each is processed independently. See [Batch intents](/relayer/docs/api/batch-intents).

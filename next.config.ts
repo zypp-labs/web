@@ -1,21 +1,16 @@
 import type { NextConfig } from "next";
+import { createMDX } from "fumadocs-mdx/next";
+
+const withMDX = createMDX();
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
-    ],
-    // Allow Supabase Storage images
+    remotePatterns: [{ protocol: "https", hostname: "**" }],
     domains: process.env.NEXT_PUBLIC_SUPABASE_URL
       ? [new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname]
       : [],
   },
-  "typescript": {
-    ignoreBuildErrors: true
-  },
+  typescript: { ignoreBuildErrors: true },
 };
 
-export default nextConfig;
+export default withMDX(nextConfig);

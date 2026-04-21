@@ -1,0 +1,51 @@
+---
+title: Submit intent
+description: POST /v1/intents — submit a signed intent bundle for gasless broadcasting.
+---
+
+`POST /v1/intents`
+
+## Request
+
+```json
+{
+  "payload": "BASE64_ENCODED_INTENT_BUNDLE"
+}
+```
+
+See [Intents](/relayer/docs/intents) for the bundle structure.
+
+## Responses
+
+**202 Accepted**
+
+```json
+{
+  "jobId": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "queued"
+}
+```
+
+**400 Bad Request** — invalid payload, bad base64, signature mismatch, or malformed bundle.
+
+**409 Conflict** — duplicate payload hash or sender+nonce replay.
+
+```json
+{
+  "error": "Conflict",
+  "code": "DUPLICATE_INTENT",
+  "jobId": "550e8400-...",
+  "status": "sent"
+}
+```
+
+**429** — rate limit or abuse block.
+
+## Example
+
+```bash
+curl -X POST https://relayer.zypp.fun/v1/intents \
+  -H "Content-Type: application/json" \
+  -H "x-relayer-api-key: YOUR_API_KEY" \
+  -d '{"payload": "BASE64_INTENT_BUNDLE"}'
+```

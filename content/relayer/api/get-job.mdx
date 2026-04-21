@@ -1,0 +1,44 @@
+---
+title: Get job status
+description: GET /v1/transactions/:jobId — poll for job status.
+---
+
+`GET /v1/transactions/:jobId`
+
+## Parameters
+
+- `jobId` (path) — UUID returned from the submit endpoint
+
+## Responses
+
+**200 OK**
+
+```json
+{
+  "jobId": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "confirmed",
+  "retryCount": 0,
+  "lastError": null,
+  "txSignature": "5KtPn1LH3...",
+  "createdAt": "2026-04-21T22:00:00.000Z",
+  "updatedAt": "2026-04-21T22:00:01.200Z"
+}
+```
+
+`txSignature` is present when status is `sent` or `confirmed`.
+
+**404 Not Found**
+
+```json
+{ "error": "Not Found", "code": "JOB_NOT_FOUND" }
+```
+
+## Example
+
+```ts
+const res = await fetch(
+  `https://relayer.zypp.fun/v1/transactions/${jobId}`,
+  { headers: { "x-relayer-api-key": process.env.ZRN_API_KEY! } }
+);
+const { status, txSignature } = await res.json();
+```

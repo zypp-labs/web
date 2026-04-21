@@ -1,0 +1,39 @@
+---
+title: Ops metrics
+description: GET /v1/ops/metrics — operational and economic metrics.
+---
+
+`GET /v1/ops/metrics`
+
+## Response
+
+```json
+{
+  "totalJobs": 1042,
+  "confirmedJobs": 998,
+  "failedJobs": 12,
+  "queuedJobs": 3,
+  "sentJobs": 29,
+  "avgConfirmationMs": 1240,
+  "totalFeesCollected": "10420000",
+  "abuseTrackedIps": 4
+}
+```
+
+| Field | Description |
+|---|---|
+| `totalJobs` | All-time job count |
+| `confirmedJobs` | Jobs that reached `confirmed` |
+| `failedJobs` | Jobs that exhausted retries |
+| `queuedJobs` | Currently waiting in queue |
+| `sentJobs` | Broadcast but not yet confirmed |
+| `avgConfirmationMs` | Average time from submission to confirmation (ms) |
+| `totalFeesCollected` | Total relayer fees in USDC micro-units (intent jobs) |
+| `abuseTrackedIps` | IPs currently tracked in the abuse scorer |
+
+## Example
+
+```bash
+curl https://relayer.zypp.fun/v1/ops/metrics \
+  -H "x-relayer-api-key: YOUR_API_KEY"
+```

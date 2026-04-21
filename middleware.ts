@@ -156,6 +156,16 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Check if accessing relayer subdomain
+  if (hostname.startsWith("relayer.") || hostname === "relayer.zypp.fun") {
+    if (pathname === "/relayer" || pathname.startsWith("/relayer/")) {
+      return NextResponse.next();
+    }
+    const url = request.nextUrl.clone();
+    url.pathname = pathname === "/" ? "/relayer" : `/relayer${pathname}`;
+    return NextResponse.rewrite(url);
+  }
+
   // Check if accessing pay subdomain
   if (hostname.startsWith("pay.") || hostname === "pay.zypp.fun") {
     // If already on /pay path, allow it

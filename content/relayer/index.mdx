@@ -1,0 +1,44 @@
+---
+title: Introduction
+description: Welcome to the Zypp Relayer Network documentation.
+---
+
+ZRN is a **reliability layer for Solana** that enables asynchronous transaction settlement. It accepts signed serialized transactions and intents, queues them, broadcasts to Solana RPC nodes, and ensures confirmation through structured retry logic.
+
+<Callout title="Get Started in Minutes">
+  Jump into the [Quickstart](/relayer/docs/quickstart) to make your first API call and submit your first transaction.
+</Callout>
+
+## What is ZRN?
+
+ZRN solves the fundamental challenge of reliable transaction broadcasting on Solana. Instead of failing when connectivity drops or RPCs are unstable, transactions are:
+
+- Queued securely upon receipt
+- Broadcasted with multi-RPC failover
+- Tracked for confirmation or failure with bounded retries
+- Observable in real-time via SSE streaming or polling
+
+ZRN is **non-custodial** — it only transports and broadcasts fully signed payloads. It never holds keys or constructs transactions.
+
+## Key Benefits
+
+| Benefit | Description |
+|---|---|
+| Multi-RPC Failover | Automatic failover across Solana RPC nodes |
+| Real-time Observability | Track every job from `queued` → `confirmed` with SSE |
+| Enterprise Security | API key auth, replay protection, rate limiting |
+| Gasless Support | Intent-based architecture for sponsored transactions |
+| Horizontally Scalable | Redis-backed BullMQ queues + configurable workers |
+
+## Use Cases
+
+ZRN is designed to power:
+
+- **Offline-first apps** like Zypp Pay, where connectivity is intermittent
+- **Mobile-first wallets** that need background settlement
+- **High-throughput payment systems** requiring reliable delivery
+- **Gasless dApps** using intent bundles with sponsored fees
+
+## Need Help?
+
+Follow the journey on [X (Twitter)](https://x.com/use_zypp). ZRN is built by [Zypp Labs](https://zypp.fun), the team behind Zypp Pay.

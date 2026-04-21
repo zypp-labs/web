@@ -1,0 +1,42 @@
+---
+title: Health check
+description: GET /health — check database and Redis connectivity.
+---
+
+`GET /health`
+
+No authentication required. Use this in load balancer health checks or uptime monitoring.
+
+## Responses
+
+**200 OK** — all checks passed
+
+```json
+{
+  "status": "ok",
+  "checks": {
+    "database": "ok",
+    "redis": "ok"
+  }
+}
+```
+
+**503 Service Unavailable** — one or more checks failed
+
+```json
+{
+  "status": "degraded",
+  "checks": {
+    "database": "ok",
+    "redis": "error"
+  }
+}
+```
+
+A `503` means ZRN is degraded and may not be able to process new jobs.
+
+## Example
+
+```bash
+curl https://relayer.zypp.fun/health
+```

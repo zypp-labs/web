@@ -47,6 +47,9 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
+    "fumadocs-core": "^16.8.1",
+    "fumadocs-mdx": "^14.3.1",
+    "fumadocs-ui": "^16.8.1",
     "google-auth-library": "^10.6.2",
     "google-spreadsheet": "^5.2.0",
     "i": "^0.3.7",
@@ -72,6 +75,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

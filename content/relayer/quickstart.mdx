@@ -1,0 +1,73 @@
+---
+title: Quickstart
+description: Submit your first transaction to ZRN in under 5 minutes.
+---
+
+## Prerequisites
+
+- A ZRN API key (passed as `x-relayer-api-key` header)
+- A fully signed, serialized Solana transaction encoded as base64
+
+## Base URL
+
+```
+https://relayer.zypp.fun
+```
+
+All endpoints are versioned under `/v1`.
+
+## Submit a transaction
+
+```bash
+curl -X POST https://relayer.zypp.fun/v1/transactions \
+  -H "Content-Type: application/json" \
+  -H "x-relayer-api-key: YOUR_API_KEY" \
+  -d '{"transaction": "BASE64_SIGNED_TX"}'
+```
+
+Response `202 Accepted`:
+
+```json
+{
+  "jobId": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "queued"
+}
+```
+
+## Poll for status
+
+```bash
+curl https://relayer.zypp.fun/v1/transactions/550e8400-e29b-41d4-a716-446655440000 \
+  -H "x-relayer-api-key: YOUR_API_KEY"
+```
+
+```json
+{
+  "jobId": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "confirmed",
+  "retryCount": 0,
+  "lastError": null,
+  "txSignature": "5KtPn1...",
+  "createdAt": "2026-04-21T22:00:00.000Z",
+  "updatedAt": "2026-04-21T22:00:01.200Z"
+}
+```
+
+For real-time updates use the [SSE stream endpoint](/relayer/docs/api/stream-job) instead of polling.
+
+## Submit an intent
+
+```bash
+curl -X POST https://relayer.zypp.fun/v1/intents \
+  -H "Content-Type: application/json" \
+  -H "x-relayer-api-key: YOUR_API_KEY" \
+  -d '{"payload": "BASE64_INTENT_BUNDLE"}'
+```
+
+Same response — a `jobId` to track through to on-chain settlement.
+
+## Next steps
+
+- [Authentication](/relayer/docs/authentication) — API key setup and security
+- [Job lifecycle](/relayer/docs/job-lifecycle) — all job states and retry behaviour
+- [API Reference](/relayer/docs/api) — full endpoint documentation

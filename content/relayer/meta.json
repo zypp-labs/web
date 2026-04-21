@@ -1,0 +1,24 @@
+{
+  "title": "ZRN Docs",
+  "pages": [
+    "index",
+    "quickstart",
+    "authentication",
+    "environments",
+    "---Core Concepts---",
+    "architecture",
+    "intents",
+    "transactions",
+    "job-lifecycle",
+    "webhooks",
+    "---API Reference---",
+    "api/index",
+    "api/submit-intent",
+    "api/submit-transaction",
+    "api/get-job",
+    "api/stream-job",
+    "api/batch-intents",
+    "api/ops-metrics",
+    "api/health"
+  ]
+}

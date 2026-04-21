@@ -1,0 +1,42 @@
+---
+title: Authentication
+description: All ZRN endpoints are protected by an API key.
+---
+
+## API key
+
+Your API key is provisioned by Zypp Labs. Keep it out of client-side code and version control.
+
+## Passing the key
+
+Include it as the `x-relayer-api-key` HTTP header on every request:
+
+```bash
+curl https://relayer.zypp.fun/v1/transactions/JOB_ID \
+  -H "x-relayer-api-key: YOUR_API_KEY"
+```
+
+```ts
+const res = await fetch("https://relayer.zypp.fun/v1/transactions", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "x-relayer-api-key": process.env.ZRN_API_KEY!,
+  },
+  body: JSON.stringify({ transaction: base64Tx }),
+});
+```
+
+Requests without a valid key return `401 Unauthorized` with code `INVALID_API_KEY`.
+
+## Rate limiting
+
+ZRN enforces Redis-backed rate limiting per IP. Exceeding the limit returns `429 Too Many Requests`. Back off with exponential delay.
+
+## Abuse protection
+
+ZRN tracks an abuse score per IP. Repeated invalid submissions increment the score. Once the threshold is reached, the IP is blocked for 15 minutes. Valid submissions decay the score over time.
+
+<Callout type="warn">
+  Error codes that increment the abuse score: `INVALID_BODY`, `INVALID_TRANSACTION`, `INVALID_INTENT`, `INVALID_API_KEY`.
+</Callout>

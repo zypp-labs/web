@@ -1,0 +1,46 @@
+---
+title: Stream job status
+description: GET /v1/transactions/:jobId/stream — real-time SSE updates.
+---
+
+`GET /v1/transactions/:jobId/stream`
+
+Opens a Server-Sent Events connection that pushes job status updates every ~1.2 seconds. Close the connection yourself once the job reaches a terminal state.
+
+## Event format
+
+```json
+{
+  "jobId": "550e8400-...",
+  "status": "confirmed",
+  "retryCount": 0,
+  "lastError": null,
+  "txSignature": "5KtPn1LH3...",
+  "updatedAt": "2026-04-21T22:00:01.200Z"
+}
+```
+
+If the job is not found: `"status": "not_found"`.
+
+## Example
+
+```ts
+const es = new EventSource(
+  `https://relayer.zypp.fun/v1/transactions/${jobId}/stream`
+);
+
+es.onmessage = (e) => {
+  const data = JSON.parse(e.data);
+  if (data.status === "confirmed") {
+    console.log("Signature:", data.txSignature);
+    es.close();
+  } else if (data.status === "failed") {
+    console.error("Failed:", data.lastError);
+    es.close();
+  }
+};
+```
+
+<Callout type="info">
+  Browser `EventSource` doesn't support custom headers. For authenticated SSE in browser contexts, use a polyfill or proxy the request through your backend.
+</Callout>

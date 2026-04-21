@@ -1,0 +1,51 @@
+---
+title: Batch intents
+description: POST /v1/intents/batch — submit up to 20 intents in one request.
+---
+
+`POST /v1/intents/batch`
+
+## Request
+
+```json
+{
+  "payloads": [
+    "BASE64_INTENT_BUNDLE_1",
+    "BASE64_INTENT_BUNDLE_2"
+  ]
+}
+```
+
+`payloads` must be an array of 1–20 base64-encoded intent bundles.
+
+## Responses
+
+**207 Multi-Status** (at least one accepted)
+
+```json
+{
+  "accepted": 2,
+  "total": 2,
+  "results": [
+    { "statusCode": 202, "jobId": "550e8400-...", "status": "queued" },
+    { "statusCode": 409, "code": "DUPLICATE_INTENT", "jobId": "existing-id", "status": "confirmed" }
+  ]
+}
+```
+
+**400 Bad Request** — `payloads` missing, empty, exceeds 20 items, or all intents failed.
+
+## Example
+
+```ts
+const res = await fetch("https://relayer.zypp.fun/v1/intents/batch", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "x-relayer-api-key": process.env.ZRN_API_KEY!,
+  },
+  body: JSON.stringify({ payloads: [bundle1, bundle2] }),
+});
+
+const { accepted, total, results } = await res.json();
+```

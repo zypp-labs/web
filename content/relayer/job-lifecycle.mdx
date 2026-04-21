@@ -1,0 +1,58 @@
+---
+title: Job lifecycle
+description: How jobs move from queued to confirmed (or failed).
+---
+
+Every submitted transaction or intent becomes a **job** in ZRN.
+
+## States
+
+| State | Description |
+|---|---|
+| `queued` | Accepted and waiting in the BullMQ queue |
+| `sent` | Broadcast to a Solana RPC, waiting for on-chain confirmation |
+| `confirmed` | Confirmed on-chain. `txSignature` is populated. Terminal success. |
+| `failed` | Exhausted all retries. `lastError` contains the final error. Terminal failure. |
+
+## State transitions
+
+```
+queued
+  │
+  ▼ worker picks up job
+sent
+  │
+  ├─ confirmation received ──▶ confirmed ✓
+  │
+  └─ error / timeout
+       │
+       ├─ retries remaining ──▶ queued (re-enqueued with backoff)
+       │
+       └─ retries exhausted ──▶ failed ✗
+```
+
+## Retry behaviour
+
+On each failure the worker classifies the error:
+
+- **Retryable** — RPC timeouts, network errors, blockhash expiry → re-enqueued with exponential backoff
+- **Non-retryable** — simulation failures, insufficient funds, invalid instructions → immediately `failed`
+
+`retryCount` tracks broadcast attempts. `lastError` contains the most recent error message.
+
+## Tracking a job
+
+**Polling** — `GET /v1/transactions/:jobId` for infrequent checks.
+
+**SSE streaming** — `GET /v1/transactions/:jobId/stream` pushes updates every ~1.2s. Ideal for real-time UI.
+
+```ts
+const es = new EventSource(
+  `https://relayer.zypp.fun/v1/transactions/${jobId}/stream`
+);
+
+es.onmessage = (e) => {
+  const { status, txSignature } = JSON.parse(e.data);
+  if (status === "confirmed" || status === "failed") es.close();
+};
+```

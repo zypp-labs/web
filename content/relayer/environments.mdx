@@ -1,0 +1,37 @@
+---
+title: Environments
+description: Production, devnet, and local development.
+---
+
+## Production
+
+Targets Solana mainnet-beta. Use for live transactions with real funds.
+
+```
+https://relayer.zypp.fun
+```
+
+## Devnet
+
+ZRN is currently handling workloads on Solana devnet while preparing for mainnet deployment. The same API surface applies — use devnet-funded wallets and devnet RPC URLs in your config.
+
+## Running locally
+
+Requirements: Node 20+, Redis, Supabase (PostgreSQL).
+
+```bash
+# 1. Install
+npm install
+cp .env.example .env   # set DATABASE_URL, RPC_URLS, REDIS_URL, RELAYER_API_KEY
+
+# 2. Start Redis
+docker run -d -p 6379:6379 redis:7
+
+# 3. Apply migrations (in Supabase dashboard or psql)
+
+# 4. Start API and worker
+npm run dev:api      # http://localhost:3000
+npm run dev:worker
+```
+
+If `RELAYER_API_KEY` is unset, authentication is skipped (development only).

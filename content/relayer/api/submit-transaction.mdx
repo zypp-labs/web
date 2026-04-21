@@ -1,0 +1,65 @@
+---
+title: Submit transaction
+description: POST /v1/transactions — submit a signed Solana transaction.
+---
+
+`POST /v1/transactions`
+
+## Request
+
+```json
+{
+  "transaction": "BASE64_ENCODED_SIGNED_TRANSACTION"
+}
+```
+
+Max size: 1232 bytes. All required signatures must be present.
+
+## Responses
+
+**202 Accepted**
+
+```json
+{
+  "jobId": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "queued"
+}
+```
+
+**400 Bad Request**
+
+| Code | Reason |
+|---|---|
+| `INVALID_BODY` | Missing `transaction` field |
+| `INVALID_BASE64` | Not valid base64 |
+| `INVALID_TRANSACTION` | Failed Solana deserialization |
+| `TX_TOO_LARGE` | Exceeds 1232 bytes |
+| `MISSING_SIGNATURES` | Unsigned or partially signed |
+
+**409 Conflict**
+
+```json
+{
+  "error": "Conflict",
+  "code": "DUPLICATE_TRANSACTION",
+  "jobId": "550e8400-...",
+  "status": "queued"
+}
+```
+
+## Example
+
+```ts
+const base64 = Buffer.from(transaction.serialize()).toString("base64");
+
+const res = await fetch("https://relayer.zypp.fun/v1/transactions", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "x-relayer-api-key": process.env.ZRN_API_KEY!,
+  },
+  body: JSON.stringify({ transaction: base64 }),
+});
+
+const { jobId } = await res.json();
+```

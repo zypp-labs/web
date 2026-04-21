@@ -1,0 +1,47 @@
+---
+title: Transactions
+description: Submit raw signed Solana transactions for reliable broadcasting.
+---
+
+The lower-level interface — you construct and sign the transaction yourself, then hand it to ZRN for reliable delivery.
+
+## Submitting
+
+```ts
+import { Transaction } from "@solana/web3.js";
+
+const serialized = transaction.serialize();
+const base64 = Buffer.from(serialized).toString("base64");
+
+const res = await fetch("https://relayer.zypp.fun/v1/transactions", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "x-relayer-api-key": process.env.ZRN_API_KEY!,
+  },
+  body: JSON.stringify({ transaction: base64 }),
+});
+
+const { jobId } = await res.json();
+```
+
+## Validation rules
+
+| Rule | Detail |
+|---|---|
+| Max size | 1232 bytes (Solana's maximum) |
+| Valid base64 | Must decode without error |
+| Valid Solana tx | Must deserialize as `Transaction` or `VersionedTransaction` |
+| Signatures present | All required signatures must be populated |
+
+Transactions failing validation return `400 Bad Request` with a specific error code.
+
+## Deduplication
+
+ZRN hashes the raw payload and rejects duplicates with `409 Conflict`, returning the existing `jobId` and status so you can resume tracking.
+
+## Transactions vs intents
+
+Use **raw transactions** when you construct and sign yourself and don't need gasless execution.
+
+Use **intents** when you want gasless experiences, are building on Zypp Pay's intent protocol, or need the relayer to verify a user's signed intent before broadcasting.
