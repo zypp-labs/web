@@ -1,0 +1,6 @@
+@import "fumadocs-ui/style.css";
+
+:root, .dark {
+  --color-fd-primary: #c9ee80;
+  --color-fd-primary-foreground: #0a0a0a;
+}

@@ -41,12 +41,12 @@ const Page = () => {
     ];
     return (
         <PayWaitlist>
-            <div className='max-w-screen overflow-x-hidden bg-[#e7ffe2] min-h-screen flex flex-col items-center'>
+            <div className='max-w-screen overflow-x-hidden bg-[#e7ffe2] min-h-screen flex flex-col items-center pt-20'>
                 <motion.h1
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
-                    className='font-poppins text-[#163617] font-semibold text-4xl md:text-5xl lg:text-7xl tracking-tighter mt-34 md:mt-40 text-center px-4 md:px-0'
+                    className='font-poppins text-[#163617] font-semibold text-4xl md:text-5xl lg:text-7xl tracking-tighter mt-8 md:mt-12 text-center px-4 md:px-0'
                 >
                     Spend your stablecoins even <br className="hidden md:block" /> without a stable internet!
                 </motion.h1>

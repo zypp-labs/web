@@ -44,6 +44,7 @@ export default function PayLayout({
 }) {
   return (
     <>
+      <style>{`html, body { background: #e7ffe2 !important; }`}</style>
       {children}
     </>
   )

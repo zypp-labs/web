@@ -1,11 +1,4 @@
 @import "tailwindcss";
-@import "fumadocs-ui/style.css";
-
-/* Zypp brand green for fumadocs */
-:root, .dark {
-  --color-fd-primary: #c9ee80;
-  --color-fd-primary-foreground: #0a0a0a;
-}
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));

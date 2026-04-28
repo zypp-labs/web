@@ -1,3 +1,4 @@
+import "./styles.css";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
 import { relayerSource } from "@/lib/relayer-source";
