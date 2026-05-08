@@ -157,3 +157,4 @@ Check the response for error details:
   "error": "File size exceeds 10MB limit"
 }
 ```
+

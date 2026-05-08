@@ -18,7 +18,7 @@ async function getSheet() {
 
     const serviceAccountAuth = new JWT({
         email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
-        key: GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        key: GOOGLE_PRIVATE_KEY.replace(/\\\\n/g, '\n').replace(/\\n/g, '\n'),
         scopes: ['https://www.googleapis.com/auth/spreadsheets'],
     });
 

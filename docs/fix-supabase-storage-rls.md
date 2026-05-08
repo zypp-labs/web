@@ -1,12 +1,14 @@
 # Fix Supabase Storage RLS Error
 
 ## Error
+
 ```
 new row violates row-level security policy
 Status: 403
 ```
 
 ## Problem
+
 Your Supabase Storage bucket has Row-Level Security (RLS) enabled, but no policies allow uploads.
 
 ## Quick Fix - Option 1: Disable RLS (Easiest)
@@ -27,6 +29,7 @@ If you want to keep RLS enabled for security, add these policies:
 ### 1. Go to SQL Editor
 
 In Supabase Dashboard:
+
 - Click **SQL Editor** (left sidebar)
 - Click **New Query**
 
@@ -94,6 +97,7 @@ USING ( bucket_id = 'blog-images' );
 ### 1. Check Policies
 
 In Supabase Dashboard:
+
 1. Go to **Storage** → `blog-images`
 2. Click **Policies** tab
 3. You should see the policies listed
@@ -109,12 +113,14 @@ In Supabase Dashboard:
 ### What is RLS?
 
 Row-Level Security (RLS) is a Supabase feature that controls who can access data:
+
 - **Enabled**: Need explicit policies to allow access
 - **Disabled**: Anyone can access (public bucket)
 
 ### Why Did This Happen?
 
 When you created the `blog-images` bucket:
+
 - RLS was enabled by default
 - No policies were created
 - Result: All uploads blocked
@@ -122,12 +128,14 @@ When you created the `blog-images` bucket:
 ### Public vs Private Buckets
 
 **Public Bucket:**
+
 - RLS disabled
 - Anyone can read/write
 - Good for: Blog images, public assets
 - ✅ Recommended for your use case
 
 **Private Bucket:**
+
 - RLS enabled with policies
 - Only authorized users can access
 - Good for: User uploads, private files
@@ -137,12 +145,14 @@ When you created the `blog-images` bucket:
 For a blog with admin-only uploads, I recommend **Option 1** (Disable RLS):
 
 ### Why?
+
 - ✅ Simplest solution
 - ✅ Images need to be public anyway
 - ✅ Admin auth is handled separately
 - ✅ No complex policies needed
 
 ### Steps:
+
 1. Supabase Dashboard → Storage
 2. Click `blog-images` bucket
 3. Edit bucket settings

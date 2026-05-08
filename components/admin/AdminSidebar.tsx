@@ -13,6 +13,7 @@ import {
   UserCircle,
   LogOut,
   Settings,
+  Package,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +26,7 @@ const navigation = [
   { name: "Categories", href: "/admin/blog/categories", icon: FolderOpen },
   { name: "Tags", href: "/admin/blog/tags", icon: Tag },
   { name: "Authors", href: "/admin/blog/authors", icon: UserCircle },
+  { name: "Live Builds", href: "/admin/live-builds", icon: Package },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 

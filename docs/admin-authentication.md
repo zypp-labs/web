@@ -14,7 +14,7 @@ The admin dashboard is now protected with password authentication. Only users wi
 
 ### 1. Login Flow
 
-1. User visits any `/admin/*` route
+1. User visits any `/admin/`* route
 2. Middleware checks for authentication cookie
 3. If not authenticated → redirected to `/admin/login`
 4. User enters password
@@ -25,6 +25,7 @@ The admin dashboard is now protected with password authentication. Only users wi
 ### 2. Protected Routes
 
 All routes under `/admin/*` are protected except:
+
 - `/admin/login` - Login page (public)
 - `/api/admin/auth` - Authentication API (public)
 
@@ -52,20 +53,24 @@ All routes under `/admin/*` are protected except:
 ## Files
 
 ### Created
+
 - `/app/admin/login/page.tsx` - Login page UI
 - `/app/api/admin/auth/route.ts` - Authentication API
 - `/docs/admin-authentication.md` - This documentation
 
 ### Modified
+
 - `/middleware.ts` - Added admin auth check
 - `/components/admin/AdminSidebar.tsx` - Added logout functionality
 
 ## API Endpoints
 
 ### POST `/api/admin/auth`
+
 Login with password
 
 **Request:**
+
 ```json
 {
   "password": "zyppprotected892"
@@ -73,6 +78,7 @@ Login with password
 ```
 
 **Response (Success):**
+
 ```json
 {
   "success": true
@@ -80,6 +86,7 @@ Login with password
 ```
 
 **Response (Error):**
+
 ```json
 {
   "error": "Invalid password"
@@ -87,9 +94,11 @@ Login with password
 ```
 
 ### DELETE `/api/admin/auth`
+
 Logout (clear session)
 
 **Response:**
+
 ```json
 {
   "success": true
@@ -97,9 +106,11 @@ Logout (clear session)
 ```
 
 ### GET `/api/admin/auth`
+
 Check authentication status
 
 **Response (Authenticated):**
+
 ```json
 {
   "authenticated": true
@@ -107,6 +118,7 @@ Check authentication status
 ```
 
 **Response (Not Authenticated):**
+
 ```json
 {
   "authenticated": false
@@ -135,14 +147,14 @@ To change the admin password:
 
 1. Open `/app/api/admin/auth/route.ts`
 2. Change the `ADMIN_PASSWORD` constant:
-   ```typescript
+  ```typescript
    const ADMIN_PASSWORD = "your_new_password";
-   ```
+  ```
 3. Open `/middleware.ts`
 4. Update the password check on line 30:
-   ```typescript
+  ```typescript
    if (!decoded.startsWith("your_new_password")) {
-   ```
+  ```
 5. Restart the server
 
 ## Security Notes
@@ -150,6 +162,7 @@ To change the admin password:
 ### Current Implementation
 
 This is a **simple password-based authentication** suitable for:
+
 - Single admin user
 - Internal tools
 - Development/staging environments
@@ -160,40 +173,34 @@ This is a **simple password-based authentication** suitable for:
 For production environments, consider:
 
 1. **Use Environment Variables**
-   ```typescript
+  ```typescript
    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-   ```
-
+  ```
 2. **Hash Passwords**
-   ```typescript
+  ```typescript
    import bcrypt from 'bcrypt';
    const isValid = await bcrypt.compare(password, hashedPassword);
-   ```
-
+  ```
 3. **Use JWT Tokens**
-   ```typescript
+  ```typescript
    import jwt from 'jsonwebtoken';
    const token = jwt.sign({ admin: true }, SECRET_KEY);
-   ```
-
+  ```
 4. **Add Rate Limiting**
-   - Prevent brute force attacks
-   - Limit login attempts
-
+  - Prevent brute force attacks
+  - Limit login attempts
 5. **Add 2FA (Two-Factor Authentication)**
-   - Email verification
-   - SMS codes
-   - Authenticator apps
-
+  - Email verification
+  - SMS codes
+  - Authenticator apps
 6. **Use Proper User Management**
-   - Multiple admin users
-   - Role-based access control
-   - User database with Supabase Auth
-
+  - Multiple admin users
+  - Role-based access control
+  - User database with Supabase Auth
 7. **Add Audit Logging**
-   - Track login attempts
-   - Log admin actions
-   - Monitor suspicious activity
+  - Track login attempts
+  - Log admin actions
+  - Monitor suspicious activity
 
 ## Troubleshooting
 
@@ -221,19 +228,17 @@ For production environments, consider:
 ### Manual Testing
 
 1. **Test Login:**
-   - Go to `/admin/login`
-   - Enter wrong password → Should show error
-   - Enter correct password → Should redirect to `/admin`
-
+  - Go to `/admin/login`
+  - Enter wrong password → Should show error
+  - Enter correct password → Should redirect to `/admin`
 2. **Test Protection:**
-   - Clear cookies
-   - Try to access `/admin` → Should redirect to login
-   - Try to access `/admin/blog/posts` → Should redirect to login
-
+  - Clear cookies
+  - Try to access `/admin` → Should redirect to login
+  - Try to access `/admin/blog/posts` → Should redirect to login
 3. **Test Logout:**
-   - Login successfully
-   - Click logout button
-   - Try to access `/admin` → Should redirect to login
+  - Login successfully
+  - Click logout button
+  - Try to access `/admin` → Should redirect to login
 
 ### API Testing
 

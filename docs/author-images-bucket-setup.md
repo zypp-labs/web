@@ -8,7 +8,7 @@ Author avatars are now stored in a separate `author-images` bucket, while blog p
 
 ### 1. Create Author Images Bucket
 
-1. **Go to Supabase Dashboard** → https://supabase.com/dashboard
+1. **Go to Supabase Dashboard** → [https://supabase.com/dashboard](https://supabase.com/dashboard)
 2. **Click "Storage"** in the left sidebar
 3. **Click "New Bucket"**
 4. **Bucket name:** `author-images`
@@ -55,11 +55,13 @@ USING ( bucket_id = 'author-images' );
 ### Two Separate Buckets
 
 **blog-images bucket:**
+
 - Blog post featured images
 - Folder: `blog-posts/`
 - Example: `blog-posts/1699999999-abc123.jpg`
 
 **author-images bucket:**
+
 - Author avatar images
 - Folder: `avatars/`
 - Example: `avatars/1699999999-xyz789.png`
@@ -67,6 +69,7 @@ USING ( bucket_id = 'author-images' );
 ### Upload Flow
 
 **Blog Post Image:**
+
 ```typescript
 <ImageUpload
   value={featured_image}
@@ -77,6 +80,7 @@ USING ( bucket_id = 'author-images' );
 ```
 
 **Author Avatar:**
+
 ```typescript
 <ImageUpload
   value={avatar_url}
@@ -89,11 +93,13 @@ USING ( bucket_id = 'author-images' );
 ### URL Structure
 
 **Blog Image URL:**
+
 ```
 https://abc.supabase.co/storage/v1/object/public/blog-images/blog-posts/123-abc.jpg
 ```
 
 **Author Avatar URL:**
+
 ```
 https://abc.supabase.co/storage/v1/object/public/author-images/avatars/123-xyz.png
 ```
@@ -115,20 +121,24 @@ return `${supabaseUrl}/storage/v1/object/public/${bucket}/${cleanPath}`;
 ## Files Modified
 
 ### 1. ImageUpload Component
+
 - Added `bucket` prop
 - Passes bucket to upload API
 - Default: `"blog-images"`
 
 ### 2. Upload API
+
 - Accepts `bucket` parameter
 - Uploads to specified bucket
 - Returns bucket in response
 
 ### 3. AuthorDialog
+
 - Uses `bucket="author-images"`
 - Uses `folder="avatars"`
 
 ### 4. SafeImage Component
+
 - Auto-detects bucket from URL
 - Handles both `blog-images` and `author-images`
 - Constructs correct public URLs
@@ -136,21 +146,25 @@ return `${supabaseUrl}/storage/v1/object/public/${bucket}/${cleanPath}`;
 ## Benefits
 
 ### ✅ Better Organization
+
 - Blog images separate from author images
 - Easier to manage and backup
 - Clear folder structure
 
 ### ✅ Independent Permissions
+
 - Can set different policies per bucket
 - More granular access control
 - Better security
 
 ### ✅ Easier Cleanup
+
 - Delete all author avatars without affecting blog images
 - Bulk operations per bucket
 - Simpler maintenance
 
 ### ✅ Better Performance
+
 - Smaller bucket sizes
 - Faster listing operations
 - Optimized queries
@@ -177,17 +191,20 @@ Supabase Storage
 If you have existing author images in `blog-images` bucket:
 
 ### Option 1: Leave Them (Recommended)
+
 - Old images will still work
 - SafeImage handles both buckets
 - New uploads go to `author-images`
 
 ### Option 2: Migrate Manually
+
 1. Download images from `blog-images/authors/`
 2. Upload to `author-images/avatars/`
 3. Update database URLs
 4. Delete old images
 
 ### Option 3: SQL Migration
+
 ```sql
 -- Update author avatar URLs (if stored as paths)
 UPDATE blog_authors
@@ -200,27 +217,33 @@ WHERE avatar_url LIKE '%blog-images/authors/%';
 ### Author Avatars Not Showing?
 
 **1. Check bucket exists:**
+
 - Supabase Dashboard → Storage
 - Look for `author-images` bucket
 - If missing, create it
 
 **2. Check bucket is public:**
+
 - Click `author-images` bucket
 - Settings → Public bucket ✅
 
 **3. Check image URL:**
+
 ```sql
 SELECT id, name, avatar_url FROM blog_authors;
 ```
+
 Should contain `author-images` in URL
 
 **4. Check browser console:**
+
 - Look for 404 errors
 - Check if URL is correct
 - Verify bucket name
 
 **5. Test direct URL:**
 Copy avatar URL and open in browser:
+
 ```
 https://your-project.supabase.co/storage/v1/object/public/author-images/avatars/123.png
 ```
@@ -228,10 +251,12 @@ https://your-project.supabase.co/storage/v1/object/public/author-images/avatars/
 ### Upload Fails?
 
 **Error: "Storage bucket not accessible"**
+
 - Bucket doesn't exist → Create it
 - Bucket is private → Make it public or add policies
 
 **Error: "new row violates row-level security policy"**
+
 - RLS is enabled without policies
 - Solution: Add policies (see above) or make bucket public
 

@@ -7,11 +7,13 @@ The admin dashboard is a comprehensive management system for Zypp Labs, accessib
 ## Features
 
 ### Dashboard Overview
+
 - **Analytics**: Real-time statistics for waitlist, newsletter, and blog posts
 - **Growth Charts**: Visual representation of growth trends over the last 30 days
 - **Recent Activity**: Timeline of recent actions across all modules
 
 ### Waitlist Management
+
 - View all waitlist signups
 - Search and filter entries
 - Export to CSV
@@ -19,6 +21,7 @@ The admin dashboard is a comprehensive management system for Zypp Labs, accessib
 - View source and IP address information
 
 ### Newsletter Management
+
 - View all newsletter subscribers
 - Toggle active/inactive status
 - Filter by status (All/Active/Inactive)
@@ -29,6 +32,7 @@ The admin dashboard is a comprehensive management system for Zypp Labs, accessib
 ### Blog Management
 
 #### Posts
+
 - Create, edit, and delete blog posts
 - Rich text editor (HTML supported)
 - Image upload for featured images
@@ -40,16 +44,19 @@ The admin dashboard is a comprehensive management system for Zypp Labs, accessib
 - Read time configuration
 
 #### Categories
+
 - Create, edit, and delete categories
 - Name, slug, and description management
 - Automatic slug generation
 
 #### Tags
+
 - Create, edit, and delete tags
 - Name and slug management
 - Automatic slug generation
 
 #### Authors
+
 - Create, edit, and delete authors
 - Name, email, and bio management
 - Avatar URL support
@@ -99,13 +106,11 @@ Deploy the admin section as a separate Next.js app with its own domain/subdomain
 Currently, the admin dashboard doesn't have authentication. To add it:
 
 1. **Set up Supabase Auth**:
-   - Create admin users in Supabase Auth
-   - Add role-based access control
-
+  - Create admin users in Supabase Auth
+  - Add role-based access control
 2. **Add Auth Middleware**:
-   - Check for authenticated admin users
-   - Redirect to login if not authenticated
-
+  - Check for authenticated admin users
+  - Redirect to login if not authenticated
 3. **Example Auth Check** (add to `app/admin/layout.tsx`):
 
 ```typescript
@@ -186,12 +191,12 @@ All admin API routes are prefixed with `/api/admin/`:
 
 ## Future Enhancements
 
-- [ ] Rich text editor (Tiptap or similar)
-- [ ] Image gallery management
-- [ ] Bulk operations
-- [ ] Advanced analytics
-- [ ] Email campaign management
-- [ ] User role management
-- [ ] Activity logs
-- [ ] Backup/restore functionality
+- Rich text editor (Tiptap or similar)
+- Image gallery management
+- Bulk operations
+- Advanced analytics
+- Email campaign management
+- User role management
+- Activity logs
+- Backup/restore functionality
 
